@@ -1,0 +1,18 @@
+[package]
+name = "helion-python"
+version = "0.1.0"
+edition = "2021"
+authors = ["Helion Contributors"]
+license = "Apache-2.0"
+
+[lib]
+name = "helion"
+crate-type = ["cdylib"]
+
+[dependencies]
+helion_core = { path = "../../core" }
+pyo3 = { version = "0.22", features = ["extension-module", "abi3-py310"] }
+numpy = "0.22"
+
+[build-dependencies]
+pyo3-build-config = "0.22"

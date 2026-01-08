@@ -1,0 +1,50 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "helion"
+version = "0.1.0"
+description = "High-performance data visualization engine powered by WebGPU"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "Helion Contributors" }
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Rust",
+]
+dependencies = [
+    "numpy>=1.20",
+]
+
+[project.optional-dependencies]
+jupyter = [
+    "ipywidgets>=8.0",
+    "jupyterlab>=4.0",
+]
+dev = [
+    "pytest>=7.0",
+    "black>=23.0",
+    "mypy>=1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/rm-ritik/Helion"
+Repository = "https://github.com/rm-ritik/Helion"
+Documentation = "https://github.com/rm-ritik/Helion"
+
+[tool.maturin]
+python-source = "python"
+module-name = "helion._helion"
+bindings = "pyo3"
+features = ["pyo3/extension-module"]

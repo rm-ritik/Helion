@@ -1,0 +1,33 @@
+*.pyc
+__pycache__/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Rust
+target/
+Cargo.lock
+**/*.rs.bk
+
+# JavaScript/TypeScript
+node_modules/
+dist/
+*.log
+pkg/
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build outputs
+*.wasm
+*.so
+*.dylib
+*.dll

@@ -1,0 +1,32 @@
+{
+  "name": "@helion/vanilla",
+  "version": "0.1.0",
+  "description": "Helion data visualization - Framework-agnostic JavaScript API",
+  "type": "module",
+  "main": "dist/helion.js",
+  "types": "dist/helion.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "wasm-pack build ../../core --target web --out-dir ../bindings/web/vanilla/pkg && tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist pkg"
+  },
+  "keywords": [
+    "visualization",
+    "webgpu",
+    "data-viz",
+    "charts",
+    "graphics"
+  ],
+  "author": "Helion Contributors",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rm-ritik/Helion"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  }
+}
