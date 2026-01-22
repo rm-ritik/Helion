@@ -4,7 +4,7 @@ High-performance data visualization engine powered by WebGPU. Render millions of
 
 ## 📚 Documentation
 
-- **[API Documentation](https://rm-ritik.github.io/Helion/)** - Full API reference
+- **[API Documentation](https://rm-ritik.github.io/Helion/helion_core/)** - Full API reference
 - **[Repository](https://github.com/rm-ritik/Helion)** - Source code
 
 ## Project Scope
