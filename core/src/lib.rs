@@ -4,10 +4,16 @@ pub mod renderer;
 pub mod scatter;
 pub mod shaders;
 
+#[cfg(feature = "python")]
+pub mod window;
+
 pub use backend::{GPUBackend, BackendType};
 pub use data::{Point2D, Color, ChartData};
 pub use renderer::{Renderer, RenderOptions};
 pub use scatter::ScatterRenderer;
+
+#[cfg(feature = "python")]
+pub use window::{RenderWindow, run_window};
 
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;

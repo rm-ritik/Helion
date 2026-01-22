@@ -12,7 +12,7 @@ crate-type = ["cdylib", "rlib"]
 
 [features]
 default = []
-python = ["pyo3"]
+python = ["pyo3", "winit", "pollster"]
 wasm = []
 
 [dependencies]
@@ -21,6 +21,9 @@ bytemuck = { version = "1.14", features = ["derive"] }
 futures = "0.3"
 log = "0.4"
 pyo3 = { version = "0.22", optional = true }
+winit = { version = "0.30", optional = true }
+pollster = { version = "0.3", optional = true }
+env_logger = "0.11"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = "0.2"

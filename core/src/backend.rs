@@ -7,7 +7,15 @@ pub enum BackendType {
     WebGL2,
 }
 
-/// GPU backend abstraction
+/// GPU backend abstraction - OPTIONAL helper for web contexts
+/// 
+/// This struct is maintained for backward compatibility and web-based usage.
+/// For native window rendering (e.g., Python bindings), renderers can be
+/// created directly with device/queue/config without going through GPUBackend.
+/// 
+/// Design rationale:
+/// - Native contexts: Create device/queue/surface directly, pass to renderer
+/// - Web contexts: Use GPUBackend as a convenient factory/manager
 pub struct GPUBackend {
     pub backend_type: BackendType,
     pub device: Option<Arc<wgpu::Device>>,

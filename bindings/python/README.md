@@ -114,7 +114,16 @@ plot = helion.scatter(x, y, color="#FF5733")
 
 - Python >= 3.10
 - NumPy >= 1.20
+- pytest >= 7.0 (for running tests)
 
 ## Documentation
 
 See the [examples](../../examples/python/) directory for usage examples.
+
+## Testing
+
+Run the unit tests:
+```bash
+cd bindings/python
+pytest tests/ -v
+```

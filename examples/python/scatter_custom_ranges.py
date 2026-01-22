@@ -87,6 +87,12 @@ def main():
     print("  • [0, 1]: Texture coordinates, normalized space")
     print("  • [1, -1]: Screen space (top-to-bottom)")
     print("  • Custom: Preserve aspect ratios, zoom to regions")
+    print("\nOpening window with aspect-ratio preserved plot...")
+    print("Close window to exit.")
+    print("=" * 60)
+    
+    # Show the last plot (aspect ratio preserved)
+    plot5.show()
 
 if __name__ == "__main__":
     main()

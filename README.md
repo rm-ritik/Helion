@@ -10,7 +10,7 @@ High-performance data visualization engine powered by WebGPU. Render millions of
 
 ## Project Scope
 
-Helion uses WebGPU and Rust to deliver GPU-accelerated data visualization for the web. Built for financial dashboards, IoT monitoring, and scientific data exploration that exceed the limits of D3.js and Plotly.
+Helion uses WebGPU and Rust to deliver GPU-accelerated data visualization for the web and desktop (Windows, macOS, Linux). Built for financial dashboards, IoT monitoring, and scientific data exploration that exceed the limits of D3.js and Plotly.
 
 ## Version 0.1.0 Goals
 
@@ -21,7 +21,7 @@ Helion uses WebGPU and Rust to deliver GPU-accelerated data visualization for th
 - Handle 1M+ data points at 60 FPS
 
 **Language Bindings**
-- Python with Jupyter notebook integration (PyO3)
+- Python with Jupyter notebook integration (PyO3) - Windows, macOS, Linux
 - Framework-agnostic JavaScript/TypeScript API
 - Thin React/Vue/Svelte wrappers
 
@@ -33,16 +33,16 @@ Helion uses WebGPU and Rust to deliver GPU-accelerated data visualization for th
 
 ## Quick Start (Python)
 
-Helion's Python bindings are ready to use! Check out the working examples:
+Helion's Python bindings let you visualize massive datasets with GPU acceleration on Windows, macOS, and Linux. All examples open native windows to display plots.
+
+### Examples
 
 - **[scatter_basic.py](examples/python/scatter_basic.py)** - Simple scatter plot with 100K points
-- **[scatter_million.py](examples/python/scatter_million.py)** - Performance test with 1M points (renders in ~75ms!)
-- **[scatter_colors.py](examples/python/scatter_colors.py)** - Different color formats (hex, RGB tuples)
+- **[scatter_million.py](examples/python/scatter_million.py)** - Performance test with 1M points (renders smoothly at 60 FPS!)
+- **[scatter_colors.py](examples/python/scatter_colors.py)** - Different color formats (hex, RGB tuples, Color class)
 - **[scatter_custom_ranges.py](examples/python/scatter_custom_ranges.py)** - Custom coordinate mapping
 
 **Setup & Installation:** See [bindings/python/README.md](bindings/python/README.md)
-
-> **Note:** Examples currently create optimized GPU data structures but don't render to screen yet. Window/canvas integration is in progress. You'll see performance metrics and confirmation that plots are created successfully.
 
 ```python
 import helion
@@ -52,8 +52,9 @@ import numpy as np
 x = np.random.rand(1_000_000)
 y = np.random.rand(1_000_000)
 
-# Create scatter plot (data processed in ~75ms)
+# Create and display scatter plot - renders smoothly at 60 FPS!
 plot = helion.scatter(x, y, color="#FF5733")
+plot.show()  # Opens a window with GPU-accelerated rendering
 ```
 
 ## Project Structure
@@ -61,8 +62,12 @@ plot = helion.scatter(x, y, color="#FF5733")
 ```
 helion/
 ├── core/              # Rust + WebGPU/WebGL2
+│   ├── src/           # Core rendering engine
+│   └── tests/         # Integration tests
 ├── bindings/
 │   ├── python/        # PyO3 bindings + Jupyter
+│   │   ├── src/       # Rust FFI bindings
+│   │   └── tests/     # Unit tests
 │   └── web/           # WASM → JS/TS
 │       ├── vanilla/   # Framework-agnostic core
 │       └── react/     # React components

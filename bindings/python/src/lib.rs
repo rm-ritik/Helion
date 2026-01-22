@@ -1,12 +1,12 @@
 use pyo3::prelude::*;
 use numpy::PyReadonlyArray1;
-use helion_core::{ChartData, GPUBackend, ScatterRenderer, Point2D, Color};
+use helion_core::{ChartData, Point2D, Color, run_window};
 
 /// GPU-accelerated scatter plot renderer
 #[pyclass]
 pub struct PyScatterPlot {
-    backend: Option<GPUBackend>,
-    renderer: Option<ScatterRenderer>,
+    chart_data: Option<ChartData>,
+    title: String,
 }
 
 #[pymethods]
@@ -14,9 +14,36 @@ impl PyScatterPlot {
     #[new]
     fn new() -> Self {
         Self {
-            backend: None,
-            renderer: None,
+            chart_data: None,
+            title: "Helion Scatter Plot".to_string(),
         }
+    }
+    
+    /// Set the window title
+    #[pyo3(signature = (title))]
+    fn set_title(&mut self, title: String) {
+        self.title = title;
+    }
+    
+    /// Show the scatter plot in a window
+    /// 
+    /// Opens a window and renders the scatter plot. This is a blocking call
+    /// that runs until the window is closed.
+    fn show(&self) -> PyResult<()> {
+        let chart_data = self.chart_data.as_ref()
+            .ok_or_else(|| pyo3::exceptions::PyValueError::new_err(
+                "No data set. Call scatter() with data first."
+            ))?;
+        
+        // Clone the data for the window (run_window takes ownership)
+        let data_clone = ChartData {
+            vertices: chart_data.vertices.clone(),
+            viewport_width: chart_data.viewport_width,
+            viewport_height: chart_data.viewport_height,
+        };
+        
+        run_window(data_clone, &self.title);
+        Ok(())
     }
     
     /// Create a scatter plot from numpy arrays
@@ -66,7 +93,7 @@ impl PyScatterPlot {
         let color_opt = color.map(|(r, g, b, a)| Color { r, g, b, a });
         
         // Create chart data with optional custom ranges
-        let _chart_data = ChartData::from_scatter_with_range(
+        self.chart_data = Some(ChartData::from_scatter_with_range(
             x_slice,
             y_slice,
             color_opt,
@@ -75,10 +102,10 @@ impl PyScatterPlot {
             height,
             x_range,
             y_range,
-        );
+        ));
         
         Ok(format!(
-            "Scatter plot created with {} points",
+            "Scatter plot created with {} points. Call show() to display.",
             x_slice.len()
         ))
     }

@@ -51,6 +51,11 @@ def main():
     
     print("\nThis demonstrates Helion's ability to handle large datasets")
     print("efficiently using WebGPU acceleration.")
+    print("\nOpening window... Close window to exit.")
+    print("=" * 60)
+    
+    # Show the plot
+    plot.show()
 
 if __name__ == "__main__":
     main()

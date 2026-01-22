@@ -30,6 +30,12 @@ def main():
     print(f"  - X range: [{x.min():.3f}, {x.max():.3f}]")
     print(f"  - Y range: [{y.min():.3f}, {y.max():.3f}]")
     print(f"  - Color: #FF5733 (coral red)")
+    print("")
+    print("Opening window... Close window to exit.")
+    print("-" * 50)
+    
+    # Show the plot in a window
+    plot.show()
 
 if __name__ == "__main__":
     main()

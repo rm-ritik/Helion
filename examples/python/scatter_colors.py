@@ -38,8 +38,17 @@ def main():
     custom_color = helion.Color.from_hex("#9333EA")
     print(f"   ✓ Purple scatter plot (R={custom_color.r:.2f}, G={custom_color.g:.2f}, B={custom_color.b:.2f})")
     
+    # Show the last plot as an example
+    plot4 = helion.scatter(x, y, color="#9333EA")
+    
     print("\n" + "=" * 60)
     print("All color formats work seamlessly with Helion!")
+    print("\nOpening window with purple scatter plot...")
+    print("Close window to exit.")
+    print("=" * 60)
+    
+    # Display one of the plots
+    plot4.show()
 
 if __name__ == "__main__":
     main()
