@@ -1,0 +1,138 @@
+name: CI - Tests and Examples
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  core-tests:
+    name: Core Library Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache cargo index
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/git
+          key: ${{ runner.os }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache cargo build
+        uses: actions/cache@v4
+        with:
+          path: core/target
+          key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('core/Cargo.lock') }}
+
+      - name: Run core tests
+        run: |
+          cd core
+          cargo test --all-features --verbose
+
+      - name: Check core documentation builds
+        run: |
+          cd core
+          cargo doc --no-deps --all-features
+
+  python-bindings:
+    name: Python Bindings & Examples
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            bindings/python/target
+          key: ${{ runner.os }}-python-${{ matrix.python-version }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install maturin numpy
+
+      - name: Build Python bindings
+        run: |
+          cd bindings/python
+          maturin develop --release
+
+      - name: Test Python examples
+        run: |
+          cd examples/python
+          
+          echo "Testing scatter_basic.py..."
+          python scatter_basic.py
+          
+          echo "Testing scatter_million.py..."
+          python scatter_million.py
+          
+          echo "Testing scatter_colors.py..."
+          python scatter_colors.py
+          
+          echo "Testing scatter_custom_ranges.py..."
+          python scatter_custom_ranges.py
+          
+          echo "Testing mismatched arrays..."
+          python test_mismatched.py
+          
+          echo "✅ All Python examples passed!"
+
+      - name: Validate README example
+        run: |
+          python -c "
+          import helion
+          import numpy as np
+          
+          print('Testing README.md example...')
+          
+          # Example from README
+          x = np.random.rand(1_000_000)
+          y = np.random.rand(1_000_000)
+          plot = helion.scatter(x, y, color='#FF5733')
+          
+          print('✅ README example works!')
+          "
+
+  integration:
+    name: Integration Check
+    needs: [core-tests, python-bindings]
+    runs-on: ubuntu-latest
+    steps:
+      - name: All tests passed
+        run: |
+          echo "✅ All CI checks passed successfully!"
+          echo "   - Core tests: PASSED"
+          echo "   - Python bindings: PASSED"
+          echo "   - Examples: PASSED"
+          echo "   - README validation: PASSED"
