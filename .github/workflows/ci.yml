@@ -85,7 +85,8 @@ jobs:
       - name: Build Python bindings
         run: |
           cd bindings/python
-          maturin develop --release
+          maturin build --release --out dist
+          pip install dist/*.whl
 
       - name: Test Python examples
         run: |
