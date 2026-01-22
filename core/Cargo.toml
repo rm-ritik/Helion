@@ -10,11 +10,17 @@ repository = "https://github.com/rm-ritik/Helion"
 [lib]
 crate-type = ["cdylib", "rlib"]
 
+[features]
+default = []
+python = ["pyo3"]
+wasm = []
+
 [dependencies]
 wgpu = "22.1"
 bytemuck = { version = "1.14", features = ["derive"] }
 futures = "0.3"
 log = "0.4"
+pyo3 = { version = "0.22", optional = true }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = "0.2"

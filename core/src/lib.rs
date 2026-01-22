@@ -5,7 +5,7 @@ pub mod scatter;
 pub mod shaders;
 
 pub use backend::{GPUBackend, BackendType};
-pub use data::{Point2D, ChartData};
+pub use data::{Point2D, Color, ChartData};
 pub use renderer::{Renderer, RenderOptions};
 pub use scatter::ScatterRenderer;
 

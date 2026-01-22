@@ -10,7 +10,7 @@ name = "helion"
 crate-type = ["cdylib"]
 
 [dependencies]
-helion_core = { path = "../../core" }
+helion_core = { path = "../../core", features = ["python"] }
 pyo3 = { version = "0.22", features = ["extension-module", "abi3-py310"] }
 numpy = "0.22"
 

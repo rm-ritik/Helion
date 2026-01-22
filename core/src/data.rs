@@ -1,8 +1,12 @@
 use bytemuck::{Pod, Zeroable};
 
+#[cfg(feature = "python")]
+use pyo3::prelude::*;
+
 /// 2D point data structure
 #[repr(C)]
 #[derive(Debug, Clone, Copy, Pod, Zeroable)]
+#[cfg_attr(feature = "python", pyo3::pyclass(get_all, set_all))]
 pub struct Point2D {
     pub x: f32,
     pub y: f32,
@@ -14,9 +18,20 @@ impl Point2D {
     }
 }
 
+/// Python-specific methods
+#[cfg(feature = "python")]
+#[pymethods]
+impl Point2D {
+    #[new]
+    fn py_new(x: f32, y: f32) -> Self {
+        Self::new(x, y)
+    }
+}
+
 /// Color in RGBA format
 #[repr(C)]
 #[derive(Debug, Clone, Copy, Pod, Zeroable)]
+#[cfg_attr(feature = "python", pyo3::pyclass(name = "Color", get_all, set_all))]
 pub struct Color {
     pub r: f32,
     pub g: f32,
@@ -40,6 +55,24 @@ impl Color {
             1.0
         };
         Self { r, g, b, a }
+    }
+}
+
+/// Python-specific methods
+#[cfg(feature = "python")]
+#[pymethods]
+impl Color {
+    #[new]
+    #[pyo3(signature = (r, g, b, a=1.0))]
+    fn py_new(r: f32, g: f32, b: f32, a: f32) -> Self {
+        Self::new(r, g, b, a)
+    }
+    
+    /// Create color from hex string (e.g., "#FF5733")
+    #[staticmethod]
+    #[pyo3(name = "from_hex")]
+    fn from_hex_py(hex: &str) -> Self {
+        Self::from_hex(hex)
     }
 }
 
