@@ -11,7 +11,7 @@ High-performance data visualization engine powered by WebGPU. Render millions of
 
 Helion uses WebGPU and Rust to deliver GPU-accelerated data visualization for the web. Built for financial dashboards, IoT monitoring, and scientific data exploration that exceed the limits of D3.js and Plotly.
 
-## Version 1.0 Goals
+## Version 0.1.0 Goals
 
 **Core Engine**
 - Rust rendering engine with WebGPU backend
